@@ -1,5 +1,6 @@
 from src.file_reader import FileReader
 from src.course_catalog import CourseCatalog
+from src.student_input import get_student_input
 
 def main():
     file_path="data/courses.txt"
@@ -15,6 +16,9 @@ def main():
     
     for course in unique_courses:
         print(course)
+    
+    n=get_student_input()
+    print(f"Student input: {n}")
 
 if __name__=="__main__":
     main()
