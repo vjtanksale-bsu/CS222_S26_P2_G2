@@ -1,24 +1,18 @@
-from src.file_reader import FileReader
-from src.course_catalog import CourseCatalog
-from src.student_input import get_student_input
+from src.scheduler import validate_course_input
 
-def main():
-    file_path="data/courses.txt"
-    reader=FileReader()
-    lines=reader.read_lines(file_path)
-    if not lines:
-        print("No data found in the file.")
-        return
-    catalog=CourseCatalog()
-    unique_courses=catalog.extract_unique_courses(lines)
+def get_user_selections(n, available_courses):
+    selected_courses = []
+    print(f"Please enter {n} different course codes in sequence: ")
     
-    print(f"Found {len(unique_courses)} unique courses:")
-    
-    for course in unique_courses:
-        print(course)
-    
-    n=get_student_input()
-    print(f"Student input: {n}")
-
-if __name__=="__main__":
-    main()
+    while len(selected_courses) < n:
+        user_input = input(f"Enter course #{len(selected_courses) + 1}: ").strip()
+        
+        is_valid, message = validate_course_input(n, user_input, available_courses)
+        
+        if is_valid:
+            selected_courses.append(user_input)
+            print(f"Added successfully! Currently selected: {selected_courses}")
+        else:
+            print(message)
+            
+    return selected_courses
