@@ -3,11 +3,10 @@ from schedule_handler import handle_no_schedule
 
 def main(schedule):
 
-    schedule = None  # placeholder for Story 4 output
+    schedule = None 
 
     while True:
 
-        # TODO: replace with teammate scheduler
         schedule = None
 
         if schedule is None:
