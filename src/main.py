@@ -1,10 +1,19 @@
-from story4.src.modules.data_utils import load_courses_from_file
-from story4.src.modules.core_logic import filter_courses
-
-def main():
-    courses = load_courses_from_file('data/courses.txt')
-    selected = filter_courses(courses, "CS")
-    print(f"Selected courses: {selected}")
-
+from student_input import get_student_input
+from schedule_handler import handle_no_schedule
+def main(schedule):
+    schedule = None 
+    while True:
+        schedule = None
+        if schedule is None:
+            retry = handle_no_schedule(schedule)
+            if retry:
+                print("Restarting course selection...\n")
+                continue
+            else:
+                print("Program ended.")
+                return
+        print("Valid schedule found:")
+        for course in schedule:
+            print(course)
 if __name__ == "__main__":
     main()
