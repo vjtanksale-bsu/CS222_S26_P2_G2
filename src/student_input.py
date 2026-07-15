@@ -1,6 +1,6 @@
 def get_student_input():
     while True:
-        user_input = input("Please enter a positive integer: ")
+        user_input = input("How many courses would you like to register for? Enter a positive integer: ")
         try:
             value = int(user_input)
             if value > 0:
