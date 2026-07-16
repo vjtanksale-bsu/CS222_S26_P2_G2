@@ -11,16 +11,17 @@ def main(schedule=None):
         load_courses_from_file(os.path.join(base, "courses1.txt")) +
         load_courses_from_file(os.path.join(base, "courses2.txt"))
     )
-
-    # 提取所有不重复的课程号
     available = list(dict.fromkeys(line.split()[0] for line in raw if line.split()))
 
     while True:
         schedule = None
         selected = []
 
-        print("Available courses:", ", ".join(available))
-        n = get_student_input()
+        print("Available courses:")
+        for index, course in enumerate(available, start=1):
+            print(f"{index}. {course}")
+
+        n = get_student_input(len(available))
 
         for i in range(n):
             while True:
