@@ -2,7 +2,7 @@ import os
 from schedule_handler import handle_no_schedule
 from scheduler import validate_course_input
 from student_input import get_student_input
-from modules.data_utils import load_courses_from_file
+from modules.data_utils import get_unique_course_numbers, load_courses_from_file
 
 def main(schedule=None):
     base = os.path.join(os.path.dirname(__file__), "..", "data")
@@ -11,7 +11,7 @@ def main(schedule=None):
         load_courses_from_file(os.path.join(base, "courses1.txt")) +
         load_courses_from_file(os.path.join(base, "courses2.txt"))
     )
-    available = list(dict.fromkeys(line.split()[0] for line in raw if line.split()))
+    available = get_unique_course_numbers(raw)
 
     while True:
         schedule = None
