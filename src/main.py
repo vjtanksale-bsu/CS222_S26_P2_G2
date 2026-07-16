@@ -13,6 +13,7 @@ def main(schedule=None):
     )
     available = get_unique_course_numbers(raw)
 
+
     while True:
         schedule = None
         selected = []
