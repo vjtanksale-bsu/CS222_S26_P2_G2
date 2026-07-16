@@ -21,7 +21,7 @@ def main(schedule=None):
         for index, course in enumerate(available, start=1):
             print(f"{index}. {course}")
 
-        n = get_student_input()
+        n = get_student_input(len(available))
 
         for i in range(n):
             while True:

@@ -24,3 +24,7 @@ class TestStudent:
         with patch('builtins.input', side_effect=['3.14', '5']):
             result = get_student_input()
             assert result == 5
+    def test_input_cannot_exceed_available_courses(self):
+        with patch('builtins.input', side_effect=['10', '3']):
+            result = get_student_input(max_courses=5)
+            assert result == 3
