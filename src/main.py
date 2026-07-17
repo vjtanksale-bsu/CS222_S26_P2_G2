@@ -12,7 +12,7 @@ can be found.
 
 import os
 
-from src.scheduler import validate_course_input
+from src.scheduler import validate_course_input, generate_schedule
 from src.schedule_handler import handle_no_schedule
 from src.student_input import get_student_input
 from src.modules.data_utils import get_unique_course_numbers, load_courses_from_file
