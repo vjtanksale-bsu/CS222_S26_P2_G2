@@ -28,37 +28,32 @@ def sections_conflict(section1, section2):
 
 
 def generate_schedule(selected, raw):
-
+ 
     course_sections = {}
     for course in selected:
         sections = []
-
         for line in raw:
             parts = line.split()
-
             if parts[0] == course:
                 sections.append(parts)
-
         course_sections[course] = sections
 
-    schedule = []
-    for course in selected:
-        placed = False
-        
-        for section in course_sections[course]:
-            conflict = False
-            
-            for existing in schedule:
-                if sections_conflict(section, existing):
-                    conflict = True
-                    break
-                    
-            if not conflict:
-                schedule.append(section)
-                placed = True
-                break
-                
-        if not placed:
-            return []
+    def backtrack(index, schedule):
+        if index == len(selected):
+            return list(schedule)
 
-    return [" ".join(section) for section in schedule]
+        course = selected[index]
+        for section in course_sections[course]:
+            if all(not sections_conflict(section, existing) for existing in schedule):
+                schedule.append(section)
+                result = backtrack(index + 1, schedule)
+                if result is not None:
+                    return result
+                schedule.pop()
+
+        return None
+
+    result = backtrack(0, [])
+    if result is None:
+        return []
+    return [" ".join(section) for section in result]
