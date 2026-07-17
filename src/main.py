@@ -1,17 +1,21 @@
-from src.scheduler import validate_course_input, load_available_courses
 """
 main.py
 
-Entry point for Story 3: Enter Course Selections.
+Entry point for the course scheduler.
 
-As a student trying to schedule courses for the next semester,
-I want to enter n distinct course numbers, so that I can specify
-the exact courses I want to take.
+Combines Story 3 (enter n distinct, valid course selections) with
+the full scheduling flow: loading offered courses, collecting the
+student's number of courses, validating each selection, building
+the resulting schedule, and handling the case where no schedule
+can be found.
 """
 
+import os
 
-
-COURSE_DATA_FILE = "data/courses.txt"
+from src.scheduler import validate_course_input
+from src.schedule_handler import handle_no_schedule
+from src.student_input import get_student_input
+from src.modules.data_utils import get_unique_course_numbers, load_courses_from_file
 
 
 def get_user_selections(n, available_courses):
@@ -50,13 +54,46 @@ def get_user_selections(n, available_courses):
     return selected_courses
 
 
-def main():
-    available_courses = load_available_courses(COURSE_DATA_FILE)
-    n = int(input("How many courses would you like to schedule? "))
-    selections = get_user_selections(n, available_courses)
-    print(f"\nYou have selected {n} courses: {selections}")
+def main(schedule=None):
+    base = os.path.join(os.path.dirname(__file__), "..", "data")
+    raw = (
+        load_courses_from_file(os.path.join(base, "courses.txt"))
+        + load_courses_from_file(os.path.join(base, "courses1.txt"))
+        + load_courses_from_file(os.path.join(base, "courses2.txt"))
+    )
+    available = get_unique_course_numbers(raw)
+
+    while True:
+        selected = []
+
+        print("Available courses:")
+        for index, course in enumerate(available, start=1):
+            print(f"{index}. {course}")
+
+        n = get_student_input(len(available))
+        selected = get_user_selections(n, available)
+
+        schedule = []
+        for c in selected:
+            for line in raw:
+                if line.startswith(c):
+                    schedule.append(line)
+                    break
+
+        if not schedule:
+            retry = handle_no_schedule(schedule)
+            if retry:
+                print("Restarting course selection...\n")
+                continue
+            else:
+                print("Program ended.")
+                return
+
+        print("Valid schedule found:")
+        for course in schedule:
+            print(course)
+        break
 
 
 if __name__ == "__main__":
     main()
-
