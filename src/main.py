@@ -1,6 +1,7 @@
 import os
+
+from scheduler import validate_course_input, generate_schedule
 from schedule_handler import handle_no_schedule
-from scheduler import validate_course_input
 from student_input import get_student_input
 from modules.data_utils import get_unique_course_numbers, load_courses_from_file
 

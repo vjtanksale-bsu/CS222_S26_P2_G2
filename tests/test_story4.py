@@ -1,5 +1,6 @@
 import unittest
-from src.modules.core_logic import filter_courses 
+from src.modules.data_utils import filter_courses
+
 
 class TestStory4(unittest.TestCase):
     def setUp(self):
