@@ -72,7 +72,7 @@ def main():
         n = get_student_input(len(available))
         selected = get_user_selections(n, available)
 
-        schedule = generate_schedule(selected_raw)
+        schedule = generate_schedule(selected, raw)
 
         if not schedule:
             retry = handle_no_schedule(schedule)
