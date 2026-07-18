@@ -54,7 +54,7 @@ def get_user_selections(n, available_courses):
     return selected_courses
 
 
-def main(schedule=None):
+def main():
     base = os.path.join(os.path.dirname(__file__), "..", "data")
     raw = (
         load_courses_from_file(os.path.join(base, "courses.txt"))
@@ -64,7 +64,6 @@ def main(schedule=None):
     available = get_unique_course_numbers(raw)
 
     while True:
-        selected = []
 
         print("Available courses:")
         for index, course in enumerate(available, start=1):
@@ -73,12 +72,7 @@ def main(schedule=None):
         n = get_student_input(len(available))
         selected = get_user_selections(n, available)
 
-        schedule = []
-        for c in selected:
-            for line in raw:
-                if line.startswith(c):
-                    schedule.append(line)
-                    break
+        schedule = generated_schedule(selected_raw)
 
         if not schedule:
             retry = handle_no_schedule(schedule)
